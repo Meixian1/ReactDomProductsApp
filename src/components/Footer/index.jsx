@@ -1,11 +1,11 @@
 import React from "react";
 
-const Footer = () =>{
-    return(
-        <div>
-        <footer>copyright</footer>
-        </div>
-    )
-}
+const Footer = () => {
+  return (
+    <div>
+      <footer>Copyright</footer>
+    </div>
+  );
+};
 
-export default Footer; 
+export default Footer;

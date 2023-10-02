@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Products = () => {
   const [products, setProducts] = useState([
@@ -15,16 +15,32 @@ const Products = () => {
     // Add more products here
   ]);
 
-  const addProduct = () => {
-    // Create a new product object and add it to the products array
-    const newProduct = {
-      name: "New Product",
-      description: "New Description",
-      price: 0,
-    };
+  // Local state for input values
+  const [newProduct, setNewProduct] = useState({
+    name: "",
+    description: "",
+    price: 0,
+  });
 
-    setProducts((prevProducts) => [...prevProducts, newProduct]);
+  // Function to handle form submission
+  const addProduct = (event) => {
+    event.preventDefault();
+    
+    // Create a new product object from input values
+    const productToAdd = { ...newProduct };
+    
+    // Add the new product to the products array
+    setProducts((prevProducts) => [...prevProducts, productToAdd]);
+    
+    // Clear input fields by resetting the local state
+    setNewProduct({ name: "", description: "", price: 0 });
   };
+
+  // Use useEffect to log changes in the products state
+  useEffect(() => {
+    console.log("A new product has been added!");
+    console.log("Updated products state:", products);
+  }, [products]);
 
   return (
     <div>
@@ -38,7 +54,33 @@ const Products = () => {
           </li>
         ))}
       </ul>
-      <button onClick={addProduct}>Add Product</button>
+      <form onSubmit={addProduct}>
+        <input
+          type="text"
+          placeholder="Name"
+          value={newProduct.name}
+          onChange={(e) =>
+            setNewProduct({ ...newProduct, name: e.target.value })
+          }
+        />
+        <input
+          type="text"
+          placeholder="Description"
+          value={newProduct.description}
+          onChange={(e) =>
+            setNewProduct({ ...newProduct, description: e.target.value })
+          }
+        />
+        <input
+          type="number"
+          placeholder="Price"
+          value={newProduct.price}
+          onChange={(e) =>
+            setNewProduct({ ...newProduct, price: parseFloat(e.target.value) })
+          }
+        />
+        <button type="submit">Add Product</button>
+      </form>
     </div>
   );
 };
